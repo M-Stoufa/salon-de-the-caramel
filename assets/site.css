@@ -227,6 +227,8 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 [data-menu].rich .mi.has-desc::after{content:"+";margin-left:auto;font-weight:500;color:var(--car)}
 [data-menu].rich .mi.has-desc:hover::after,[data-menu].rich .mi.has-desc.open::after{content:"–"}
 .mi.hide{display:none}
+@keyframes miIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+[data-menu].anim .mi:not(.hide){animation:miIn .45s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 22ms)}
 .no-result{display:none;text-align:center;padding:3rem 0;color:var(--choc-2)}
 .no-result.show{display:block}
 .mc-head{display:flex;align-items:center;gap:1.4rem;margin:0 0 1.5rem}

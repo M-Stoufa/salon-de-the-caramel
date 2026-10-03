@@ -44,6 +44,7 @@
   const menuRoot = document.querySelector('[data-menu]');
   if (menuRoot) {
     const input = menuRoot.querySelector('#q');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const items = [...menuRoot.querySelectorAll('.mi')];
     const sections = [...menuRoot.querySelectorAll('.mc')];
     const chips = [...menuRoot.querySelectorAll('.cats a')];
@@ -64,6 +65,17 @@
       });
       count.textContent = q ? `${shown} résultat${shown > 1 ? 's' : ''} pour « ${input.value.trim()} »` : `${items.length} spécialités · 8 rubriques`;
       empty.classList.toggle('show', shown === 0);
+      if (!reduceMotion) {
+        let i = 0;
+        items.forEach((it) => {
+          if (!it.classList.contains('hide')) it.style.setProperty('--i', Math.min(i++, 24));
+        });
+        menuRoot.classList.remove('anim');
+        void menuRoot.offsetWidth;
+        requestAnimationFrame(() => menuRoot.classList.add('anim'));
+        clearTimeout(menuRoot._at);
+        menuRoot._at = setTimeout(() => menuRoot.classList.remove('anim'), 1100);
+      }
       if (!q) spy();
     };
     input.addEventListener('input', apply);
@@ -238,6 +250,51 @@
     t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
     const today = t.toISOString().slice(0, 10);
     document.querySelectorAll('input[type="date"]').forEach((i) => (i.min = today));
+  })();
+
+  /* ---- animated counters ---- */
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cio = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          cio.unobserve(el);
+          const m = el.textContent.trim().match(/^(\d+)(.*)$/s);
+          if (!m) return;
+          const target = +m[1], suffix = m[2], t0 = performance.now(), dur = 1400;
+          const tick = (t) => {
+            const k = Math.min(1, (t - t0) / dur), ease = 1 - Math.pow(1 - k, 3);
+            el.textContent = Math.round(target * ease) + suffix;
+            if (k < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }),
+      { threshold: 0.6 }
+    );
+    document.querySelectorAll('.stat b').forEach((el) => cio.observe(el));
+  })();
+
+  /* ---- hero parallax fade ---- */
+  (() => {
+    const hero = document.querySelector('.hero .wrap');
+    if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let ticking = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = Math.min(window.scrollY, window.innerHeight);
+          hero.style.transform = `translateY(${y * 0.22}px)`;
+          hero.style.opacity = String(1 - y / (window.innerHeight * 0.85));
+          ticking = false;
+        });
+      },
+      { passive: true }
+    );
   })();
 
   /* ---- forms ---- */
