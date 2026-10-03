@@ -8,7 +8,7 @@ from pathlib import Path
 root = Path(".")
 imgs = sorted((root / "images").glob("*.webp"))
 thumbs = {p.name for p in (root / "images" / "t").glob("*.webp")}
-SKIP_THUMB = {"favicon.webp", "hero-poster.webp", "parallax-caramel.webp", "logo.webp", "cacao-bg.webp"}
+SKIP_THUMB = {"favicon.webp", "hero-poster.webp", "parallax-caramel.webp", "logo.webp", "cacao-bg.webp", "menu-bg.webp"}
 issues = []
 
 total = sum(p.stat().st_size for p in imgs)

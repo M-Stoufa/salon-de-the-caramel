@@ -333,7 +333,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
   .foot .grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:760px){
-  .nav ul{position:fixed;inset:0;background:var(--choc);color:var(--cream);flex-direction:column;justify-content:center;align-items:center;gap:.4rem;transform:translateY(-102%);visibility:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1),visibility .45s;z-index:var(--z-menu)}
+  .nav ul{position:fixed;inset:0;background:linear-gradient(rgba(30,17,9,.9),rgba(30,17,9,.93)),url(../images/menu-bg.webp) center/cover;color:var(--cream);flex-direction:column;justify-content:center;align-items:center;gap:.4rem;transform:translateY(-102%);visibility:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1),visibility .45s;z-index:var(--z-menu)}
   .nav ul.open{transform:none;visibility:visible}
   .nav ul .l{font:300 2rem var(--serif);letter-spacing:0;text-transform:none;padding:.6rem}
   .nav ul .l.on::after{display:none}
