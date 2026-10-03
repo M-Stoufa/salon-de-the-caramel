@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Galerie — Salon de Thé Caramel, Le Kef</title>
+  <meta name="description" content="En images : le décor, les boissons et les douceurs du Salon de Thé Caramel au Kef. Cliquez pour agrandir.">
+  <meta name="theme-color" content="#2a1a10">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Galerie — Salon de Thé Caramel, Le Kef">
+  <meta property="og:image" content="images/hero-poster.webp">
+  <link rel="icon" href="images/favicon.webp">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/site.css?v=29">
+</head>
+<body>
+  <nav class="nav" aria-label="Navigation principale">
+    <div class="bar">
+      <a class="logo" href="index.html"><img src="images/logo.webp" width="42" height="42" alt="">Caramel<span>.</span></a>
+      <ul id="menu">
+        <li><a class="l" href="index.html">Accueil</a></li>
+        <li><a class="l" href="prop.html">À propos</a></li>
+        <li><a class="l on" aria-current="page" href="gallery.html">Galerie</a></li>
+        <li><a class="l" href="m.html">Menu</a></li>
+        <li><a class="l cta" href="resrv.html">Réserver</a></li>
+      </ul>
+      <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu">☰</button>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="k">Décor · Boissons · Douceurs</p>
+      <h1 class="d">La galerie <em>Caramel</em></h1>
+      <p class="lead">52 photos du salon, de nos créations et de l’équipe. Cliquez sur une image pour l’agrandir, naviguez au clavier ou au tactile.</p>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-bottom:2rem">
+    <div class="masonry" id="wall" aria-live="polite"></div>
+    <div class="center" style="padding:3rem 0 4rem">
+      <p class="lead" style="margin-inline:auto">Envie de goûter en vrai ? La carte vous attend.</p>
+      <a class="btn solid" href="m.html">Voir le menu</a>
+    </div>
+  </main>
+
+  <div id="lb" aria-hidden="true" role="dialog" aria-label="Visionneuse photo">
+    <button class="x" aria-label="Fermer">×</button>
+    <button class="p" aria-label="Photo précédente">←</button>
+    <img id="lb-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+    <button class="n" aria-label="Photo suivante">→</button>
+    <div class="c" id="lb-cap"></div>
+  </div>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <div class="brand"><img src="images/logo.webp" width="56" height="56" alt="Logo Salon de Thé Caramel">Salon de Thé Caramel</div>
+          <p>Le Kef, Tunisie<br>Ouvert tous les jours : 06h00 – 00h00<br><a href="tel:+21693342832">+216 93 342 832</a></p>
+          <div class="socials">
+            <a class="soc" href="https://www.instagram.com/salon.caramel.lekef/" target="_blank" rel="noopener" aria-label="Caramel sur Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a class="soc" href="https://www.facebook.com/people/Caramel-Salon-De-Th%C3%A9/61559741768188/" target="_blank" rel="noopener" aria-label="Caramel sur Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a class="soc" href="mailto:Contact.salondethecaramel@gmail.com" aria-label="Écrire à Caramel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          </div>
+        </div>
+        <nav aria-label="Pages">
+          <a href="index.html">Accueil</a><a href="prop.html">À propos</a><a href="gallery.html">Galerie</a><a href="m.html">Menu</a><a href="resrv.html">Réservation</a>
+        </nav>
+        <nav aria-label="Contact">
+          <a href="mailto:Contact.salondethecaramel@gmail.com">Email</a>
+          <a href="https://www.instagram.com/salon.caramel.lekef/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/people/Caramel-Salon-De-Th%C3%A9/61559741768188/" target="_blank" rel="noopener">Facebook</a>
+        </nav>
+      </div>
+      <small>© <span data-year>2026</span> Salon de Thé Caramel — Le Kef</small>
+    </div>
+  </footer>
+  <script src="assets/gallery-data.js"></script>
+  <script src="assets/site.js?v=19"></script>
+</body>
+</html>

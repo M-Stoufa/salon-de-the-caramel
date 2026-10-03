@@ -1,0 +1,5 @@
+backup-orig/
+Thumbs.db
+.DS_Store
+.vscode/
+__pycache__/
