@@ -15,18 +15,22 @@
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     if (burger) {
+      const setIcon = (open) => {
+        burger.textContent = open ? '×' : '☰';
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      };
       burger.addEventListener('click', () => {
         const open = list.classList.toggle('open');
         nav.classList.toggle('open', open);
-        burger.setAttribute('aria-expanded', String(open));
-        burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+        setIcon(open);
         document.body.style.overflow = open ? 'hidden' : '';
       });
       list.querySelectorAll('a').forEach((a) =>
         a.addEventListener('click', () => {
           list.classList.remove('open');
           nav.classList.remove('open');
-          burger.setAttribute('aria-expanded', 'false');
+          setIcon(false);
           document.body.style.overflow = '';
         })
       );
