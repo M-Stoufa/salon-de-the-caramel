@@ -301,6 +301,18 @@
     );
   })();
 
+  /* ---- hero video: desktop only, saves mobile data ---- */
+  (() => {
+    const vid = document.querySelector('.hero video');
+    if (!vid || !window.matchMedia('(min-width: 761px)').matches) return;
+    const s = document.createElement('source');
+    s.src = 'hero.mp4';
+    s.type = 'video/mp4';
+    vid.appendChild(s);
+    vid.load();
+    try { const pr = vid.play(); if (pr) pr.catch(() => {}); } catch (e) {}
+  })();
+
   /* ---- forms ---- */
   document.querySelectorAll('form[data-sub]').forEach((fm) => {
     fm.addEventListener('submit', async (e) => {
