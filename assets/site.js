@@ -114,6 +114,45 @@
     apply();
   }
 
+  /* ---- chips rail: finger-drag scrolling that always works ---- */
+  (() => {
+    const rail = document.querySelector('.cats');
+    if (!rail || !window.PointerEvent) return;
+    rail.style.touchAction = 'pan-y'; /* page keeps vertical; JS owns horizontal */
+    let down = false, sx = 0, sl = 0, moved = false, vx = 0, lastX = 0, raf = 0;
+    rail.addEventListener('pointerdown', (e) => {
+      down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
+      lastX = e.clientX; vx = 0; cancelAnimationFrame(raf);
+    });
+    rail.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - sx;
+      if (Math.abs(dx) > 8) {
+        moved = true;
+        rail.scrollLeft = sl - dx;
+        vx = e.clientX - lastX; lastX = e.clientX;
+      }
+    });
+    const up = () => {
+      if (!down) return;
+      down = false;
+      if (!moved) return;
+      let v = vx;
+      const step = () => {
+        v *= 0.94;
+        if (Math.abs(v) < 0.5) return;
+        rail.scrollLeft -= v;
+        raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    rail.addEventListener('pointerup', up);
+    rail.addEventListener('pointercancel', () => { down = false; moved = false; });
+    rail.addEventListener('click', (e) => {
+      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
+  })();
+
   /* ---- gallery: render + lightbox ---- */
   const wall = document.getElementById('wall');
   if (wall && window.SCENES) {
