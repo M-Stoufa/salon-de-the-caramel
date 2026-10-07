@@ -343,6 +343,35 @@
     try { const pr = vid.play(); if (pr) pr.catch(() => {}); } catch (e) {}
   })();
 
+  /* ---- mail text builder (test hook + future endpoint reuse) ---- */
+  const frDate = (iso) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || '').trim());
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : String(iso || '').trim();
+  };
+  const buildMail = (sub, data) => {
+    const isRes = /réservation/i.test(sub);
+    const get = (k) => String(data[k] ?? '').trim();
+    const rows = Object.entries(data)
+      .map(([k, v]) => [k, k.toLowerCase() === 'date' ? frDate(v) : String(v ?? '').trim()])
+      .filter(([, v]) => v)
+      .map(([k, v]) => `\u2022 ${k} : ${v}`);
+    const subject = isRes
+      ? `Réservation anniversaire \u2014 ${frDate(get('Date'))} ${get('Heure')} \u00b7 ${get('Personnes')} pers \u00b7 ${get('Nom')}`.replace(/\s+/g, ' ').trim()
+      : `${sub} \u2014 ${get('Nom')}`.replace(/\s+/g, ' ').trim();
+    const body = [
+      'Bonjour Caramel,',
+      '',
+      isRes ? 'Nouvelle demande de réservation depuis le site :' : 'Nouveau message depuis le site :',
+      '',
+      ...rows,
+      '',
+      '\u2014',
+      'Salon de Thé Caramel \u00b7 Le Kef \u00b7 +216 93 342 832',
+    ].join('\n');
+    return { subject, body };
+  };
+  window.CaramelMail = buildMail;
+
   /* ---- forms ---- */
   document.querySelectorAll('form[data-sub]').forEach((fm) => {
     fm.addEventListener('submit', async (e) => {
@@ -356,10 +385,9 @@
           await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
           ok.textContent = fm.dataset.ok || 'Merci ! Message envoyé.';
         } else {
-          location.href = `mailto:${MAIL}?subject=${encodeURIComponent(fm.dataset.sub)}&body=${encodeURIComponent(
-            Object.entries(data).map(([k, v]) => `${k} : ${v}`).join('\n')
-          )}`;
-          ok.textContent = `Votre application e-mail va s’ouvrir pour envoyer la demande. Ou appelez-nous : ${PHONE_TXT}.`;
+          const { subject, body } = buildMail(fm.dataset.sub, data);
+          location.href = `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          ok.textContent = `Votre application e-mail va s’ouvrir avec la demande déjà rédigée \u2014 vérifiez puis appuyez sur Envoyer. Ou appelez-nous : ${PHONE_TXT}.`;
         }
         ok.classList.add('on');
         fm.reset();
