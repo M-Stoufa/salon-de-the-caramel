@@ -405,6 +405,18 @@
     const toggle = () => bar.classList.toggle('on', window.scrollY > window.innerHeight * 0.55);
     toggle();
     window.addEventListener('scroll', toggle, { passive: true });
+    /* step aside when a form is on screen: the page already converts there */
+    const forms = [...document.querySelectorAll('form[data-sub]')];
+    const checkForms = () => {
+      const vh = window.innerHeight;
+      const hit = forms.some((fm) => {
+        const r = fm.getBoundingClientRect();
+        return r.top < vh * 0.9 && r.bottom > vh * 0.1;
+      });
+      bar.classList.toggle('off-form', hit);
+    };
+    window.addEventListener('scroll', checkForms, { passive: true });
+    checkForms();
   })();
 
   /* ---- footer year ---- */
