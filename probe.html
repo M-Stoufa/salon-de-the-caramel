@@ -1,0 +1,6 @@
+<!doctype html><html><body style="margin:0"><iframe id="f" src="/gallery.html" style="width:390px;height:6000px;border:0"></iframe><script>
+const q = new URLSearchParams(location.search);
+document.querySelector('#f').src = '/' + (q.get('p') || 'gallery.html');
+const y = Number(q.get('y') || 0);
+setTimeout(() => { document.querySelector('#f').contentWindow.scrollTo(0, y); }, 2500);
+</script></body></html>

@@ -342,6 +342,22 @@
     });
   });
 
+  /* ---- sticky mobile action bar (thumb-zone CTA) ---- */
+  (() => {
+    if (!window.matchMedia('(max-width: 760px)').matches) return;
+    const onResrv = /resrv\.html$/.test(location.pathname);
+    const bar = document.createElement('div');
+    bar.className = 'actionbar';
+    bar.setAttribute('aria-label', 'Actions rapides');
+    bar.innerHTML =
+      '<a class="ab-call" href="tel:+21693342832"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Appeler</a>' +
+      `<a class="ab-book" href="${onResrv ? '#reservation' : 'resrv.html'}">Réserver</a>`;
+    document.body.appendChild(bar);
+    const toggle = () => bar.classList.toggle('on', window.scrollY > window.innerHeight * 0.55);
+    toggle();
+    window.addEventListener('scroll', toggle, { passive: true });
+  })();
+
   /* ---- footer year ---- */
   document.querySelectorAll('[data-year]').forEach((el) => (el.textContent = new Date().getFullYear()));
 })();
