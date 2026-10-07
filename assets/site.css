@@ -199,7 +199,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 .search input{border:0;background:none;flex:1;font:inherit;min-height:44px;color:var(--choc)}
 .search input:focus{outline:none}
 .search:focus-within{outline:3px solid var(--car-bright);outline-offset:2px}
-.cats{display:flex;gap:.5rem;overflow-x:auto;padding:.4rem 0;scrollbar-width:none}
+.cats{display:flex;gap:.5rem;overflow-x:auto;padding:.4rem 0;scrollbar-width:none;touch-action:pan-x;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 .cats::-webkit-scrollbar{display:none}
 .cats a{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:.6rem 1.1rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--choc-2);min-height:44px;display:inline-flex;align-items:center;transition:background .2s,color .2s,transform .15s}
 .cats a.on,.cats a:hover{background:var(--choc);border-color:var(--choc);color:var(--cream)}
@@ -258,7 +258,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 /* about */
 /* marquee: auto-scrolling photo river, pauses on hover/touch */
 .marquee{overflow:hidden;position:relative;padding:.75rem clamp(1.25rem,4vw,3rem) 1.5rem}
-.marquee .track{display:flex;gap:1.25rem;overflow:hidden;scrollbar-width:none;padding-bottom:.25rem}
+.marquee .track{display:flex;gap:1.25rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.25rem;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 .marquee .track::-webkit-scrollbar{display:none}
 .marquee .track img{flex:0 0 calc((100% - 3 * 1.25rem) / 4);width:calc((100% - 3 * 1.25rem) / 4);height:auto;aspect-ratio:3/4;object-fit:cover}
 @media(max-width:1020px){.marquee .track img{flex-basis:calc((100% - 2 * 1.25rem) / 3);width:calc((100% - 2 * 1.25rem) / 3)}}
@@ -372,7 +372,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
   .menu-boards{grid-template-columns:1fr 1fr}
   .scroll-hint{display:none}
   .mosaic{grid-template-columns:1fr 1fr}
-  .menu-tools{top:var(--nav-h)}
+  .menu-tools{top:var(--nav-h);background:var(--cream);backdrop-filter:none}
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
