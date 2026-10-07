@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=37">
+  <link rel="stylesheet" href="assets/site.css?v=38">
 </head>
 <body>
   <nav class="nav" aria-label="Navigation principale">
@@ -97,23 +97,7 @@
             <label>Téléphone<input name="Téléphone" type="tel" required autocomplete="tel"></label>
           </div>
           <label>Date<input name="Date" type="date" required></label>
-          <fieldset class="slots-wrap">
-            <legend>Heure d’arrivée</legend>
-            <div class="timepick">
-              <span class="stepper">
-                <button type="button" data-u="h" data-s="-1" aria-label="Une heure en moins">−</button>
-                <input id="hh" type="number" min="6" max="23" value="18" inputmode="numeric" aria-label="Heures">
-                <button type="button" data-u="h" data-s="1" aria-label="Une heure en plus">+</button>
-              </span>
-              <b aria-hidden="true">:</b>
-              <span class="stepper">
-                <button type="button" data-u="m" data-s="-5" aria-label="Cinq minutes en moins">−</button>
-                <input id="mm" type="number" min="0" max="55" step="5" value="0" inputmode="numeric" aria-label="Minutes">
-                <button type="button" data-u="m" data-s="5" aria-label="Cinq minutes en plus">+</button>
-              </span>
-              <input type="hidden" name="Heure" id="heureHidden" value="18:00">
-            </div>
-          </fieldset>
+          <label>Heure d’arrivée<input id="heure" name="Heure" type="time" value="18:00" min="06:00" max="23:00" step="300" required></label>
           <label>Nombre de personnes (max 12)
             <span class="stepper">
               <button type="button" data-s="-1" aria-label="Une personne en moins">−</button>
@@ -153,6 +137,6 @@
       <small>© <span data-year>2026</span> Salon de Thé Caramel — Le Kef</small>
     </div>
   </footer>
-  <script src="assets/site.js?v=24"></script>
+  <script src="assets/site.js?v=25"></script>
 </body>
 </html>

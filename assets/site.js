@@ -268,33 +268,14 @@
     );
   });
 
-  /* ---- time picker (hour + minute steppers, free choice) ---- */
-  document.querySelectorAll('.timepick').forEach((tp) => {
-    const hh = tp.querySelector('#hh'), mm = tp.querySelector('#mm');
-    const out = tp.querySelector('#heureHidden');
-    const pad = (n) => String(n).padStart(2, '0');
-    const sync = () => {
-      let h = Math.min(23, Math.max(6, +hh.value || 18));
-      let m = Math.min(59, Math.max(0, +mm.value || 0));
-      m = Math.round(m / 5) * 5 % 60;
-      hh.value = h; mm.value = m;
-      out.value = pad(h) + ':' + pad(m);
-    };
-    tp.querySelectorAll('button').forEach((b) =>
-      b.addEventListener('click', () => {
-        if (b.dataset.u === 'h') {
-          let h = (+hh.value || 18) + (+b.dataset.s || 0);
-          hh.value = h > 23 ? 6 : h < 6 ? 23 : h;
-        } else {
-          let m = (+mm.value || 0) + (+b.dataset.s || 0);
-          mm.value = m > 55 ? 0 : m < 0 ? 55 : m;
-        }
-        sync();
-      })
-    );
-    hh.addEventListener('change', sync);
-    mm.addEventListener('change', sync);
-    sync();
+  /* ---- time field: round typed minutes to the nearest 5 ---- */
+  document.querySelectorAll('input[type="time"][step="300"]').forEach((t) => {
+    t.addEventListener('change', () => {
+      const m = t.value.match(/^(\d{2}):(\d{2})/);
+      if (!m) return;
+      const mins = Math.round(+m[2] / 5) * 5 % 60;
+      t.value = `${m[1]}:${String(mins).padStart(2, '0')}`;
+    });
   });
 
   /* ---- date inputs can't be in the past ---- */
