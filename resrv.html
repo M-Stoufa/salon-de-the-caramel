@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=38">
+  <link rel="stylesheet" href="assets/site.css?v=39">
 </head>
 <body>
   <nav class="nav" aria-label="Navigation principale">
@@ -96,8 +96,10 @@
             <label>Nom<input name="Nom" required autocomplete="name"></label>
             <label>Téléphone<input name="Téléphone" type="tel" required autocomplete="tel"></label>
           </div>
-          <label>Date<input name="Date" type="date" required></label>
-          <label>Heure d’arrivée<input id="heure" name="Heure" type="time" value="18:00" min="06:00" max="23:00" step="300" required></label>
+          <div class="two">
+            <label>Date<input name="Date" type="date" required></label>
+            <label>Heure d’arrivée<input id="heure" name="Heure" type="time" value="18:00" min="06:00" max="23:00" step="300" required></label>
+          </div>
           <label>Nombre de personnes (max 12)
             <span class="stepper">
               <button type="button" data-s="-1" aria-label="Une personne en moins">−</button>
