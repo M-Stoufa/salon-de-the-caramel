@@ -108,6 +108,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 
 /* cards */
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:1.5rem}
+.cards.cols3{grid-template-columns:repeat(3,1fr)}
 .card{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r);padding:1.25rem 1.15rem;transition:transform .25s,box-shadow .25s}
 .card:hover{transform:translateY(-6px);box-shadow:var(--sh)}
 .card .ic{width:48px;height:48px;border-radius:14px;background:var(--cream-2);display:grid;place-items:center;margin-bottom:1.1rem}
@@ -354,6 +355,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
   .split,.visit{grid-template-columns:1fr}
   .split.flip>.txt{order:0}
   .cards{grid-template-columns:1fr}
+  .cards.cols3{grid-template-columns:1fr}
   .cta-grid{grid-template-columns:1fr}
   .cta-grid .pic{min-height:240px;order:-1}
   .band-grid{grid-template-columns:1fr}
