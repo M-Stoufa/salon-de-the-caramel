@@ -109,6 +109,15 @@
         if (s.style.display !== 'none' && s.getBoundingClientRect().top < window.innerHeight * 0.35) cur = s.id;
       });
       chips.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+      /* keep the active chip visible: rail follows the reading position */
+      const rail = menuRoot.querySelector('.cats');
+      const on = chips.find((a) => a.classList.contains('on'));
+      if (on && rail && rail._spyFor !== cur) {
+        rail._spyFor = cur;
+        if (!rail._dragAt || Date.now() - rail._dragAt > 2500) {
+          rail.scrollTo({ left: on.offsetLeft - rail.clientWidth / 2 + on.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+        }
+      }
     };
     window.addEventListener('scroll', () => { if (!input.value) spy(); }, { passive: true });
     apply();
@@ -123,6 +132,7 @@
     rail.addEventListener('pointerdown', (e) => {
       down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
       lastX = e.clientX; vx = 0; cancelAnimationFrame(raf);
+      rail._dragAt = Date.now(); /* tells the spy: hands off, user is driving */
     });
     rail.addEventListener('pointermove', (e) => {
       if (!down) return;
