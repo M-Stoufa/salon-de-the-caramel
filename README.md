@@ -1,6 +1,6 @@
 # Caramel — site notes
 Pages: index.html · prop.html (À propos) · gallery.html · m.html (Menu) · resrv.html
-Forms: set the real endpoint in assets/site.js (FORM_ENDPOINT). Empty = opens an email to the salon.
+Forms: set the real endpoint in assets/site.js (FORM_ENDPOINT). Empty = opens WhatsApp (wa.me/21693342832) with the request pre-written.
 Menu: edit the items/prices directly in m.html (one .mi block per item).
 
 ## Add a photo to the gallery

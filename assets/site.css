@@ -16,7 +16,7 @@
   --sans:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
   --r:18px; --r-s:12px;
   --sh:0 18px 50px -22px rgba(42,26,16,.35);
-  --nav-h:72px;
+  --nav-h:98px;
   --z-nav:50; --z-menu:60; --z-lb:80;
 }
 *{box-sizing:border-box}
@@ -82,7 +82,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 .burger{display:none;background:none;border:1px solid currentColor;border-radius:12px;color:inherit;width:48px;height:48px;font-size:1.4rem;cursor:pointer}
 
 /* hero */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:var(--choc)}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:var(--choc)}
 .hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero .poster{display:none}
 @media(max-width:760px){.hero video{display:none}.hero .poster{display:block}}
@@ -325,10 +325,12 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 
 /* responsive */
 @media(max-width:1020px){
-  .nav ul{gap:1.1rem}
+  .nav ul{gap:.7rem}
+  .nav .l{letter-spacing:.12em;padding:.7rem .05rem}
+  .nav .cta{padding:.6rem 1rem !important}
   .logo{font-size:1.45rem}
   .cards{grid-template-columns:1fr 1fr}
-  .mosaic a:nth-child(n){grid-column:auto !important;margin-top:0 !important}
+  .mosaic a:nth-child(n){grid-column:span 2 !important;margin-top:0 !important}
   .mosaic{grid-template-columns:repeat(6,1fr)}
   .foot .grid{grid-template-columns:1fr 1fr}
 }
@@ -373,6 +375,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
   .menu-boards{grid-template-columns:1fr 1fr}
   .scroll-hint{display:none}
   .mosaic{grid-template-columns:1fr 1fr}
+  .mosaic a:nth-child(n){grid-column:auto !important}
   .menu-tools{top:var(--nav-h);background:var(--cream);backdrop-filter:none}
 }
 @media(prefers-reduced-motion:reduce){

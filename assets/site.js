@@ -1,7 +1,8 @@
 /* Caramel — site behaviour v2 */
 (() => {
   document.documentElement.classList.add('js');
-  const FORM_ENDPOINT = ''; /* set a real https endpoint to POST forms; empty = mailto fallback */
+  const FORM_ENDPOINT = ''; /* set a real https endpoint to POST forms; empty = WhatsApp fallback */
+  const WA_NUMBER = '21693342832'; /* salon WhatsApp (digits only for wa.me) */
   const MAIL = 'Contact.salondethecaramel@gmail.com';
   const PHONE_TXT = '+216 93 342 832';
 
@@ -268,13 +269,18 @@
     );
   });
 
-  /* ---- time field: round typed minutes to the nearest 5 ---- */
+  /* ---- time field: round typed minutes to the nearest 5 (carries the hour) ---- */
   document.querySelectorAll('input[type="time"][step="300"]').forEach((t) => {
+    const toMin = (v) => { const m = /^(\d{2}):(\d{2})$/.exec(v || ''); return m ? +m[1] * 60 + +m[2] : null; };
     t.addEventListener('change', () => {
       const m = t.value.match(/^(\d{2}):(\d{2})/);
       if (!m) return;
-      const mins = Math.round(+m[2] / 5) * 5 % 60;
-      t.value = `${m[1]}:${String(mins).padStart(2, '0')}`;
+      const mins = Math.round(+m[2] / 5) * 5;
+      let total = +m[1] * 60 + mins; /* may be 1440 past midnight: clamp first, wrap after */
+      const lo = toMin(t.min), hi = toMin(t.max);
+      if (lo != null) total = Math.max(lo, total);
+      if (hi != null) total = Math.min(hi, total);
+      t.value = `${String(Math.floor(total / 60) % 24).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
     });
   });
 
@@ -371,6 +377,20 @@
     return { subject, body };
   };
   window.CaramelMail = buildMail;
+  /* ---- WhatsApp text builder (same content, chat-friendly) ---- */
+  const buildWhatsApp = (sub, data) => {
+    const isRes = /réservation/i.test(sub);
+    const get = (k) => String(data[k] ?? '').trim();
+    const rows = Object.entries(data)
+      .map(([k, v]) => [k, k.toLowerCase() === 'date' ? frDate(v) : String(v ?? '').trim()])
+      .filter(([, v]) => v)
+      .map(([k, v]) => `• ${k} : ${v}`);
+    const head = isRes
+      ? `*Réservation anniversaire — ${frDate(get('Date'))} ${get('Heure')} · ${get('Personnes')} pers · ${get('Nom')}*`.replace(/\s+/g, ' ').trim()
+      : `*${sub} — ${get('Nom')}*`.replace(/\s+/g, ' ').trim();
+    return ['Bonjour Caramel,', '', head, '', ...rows].join('\n');
+  };
+  window.CaramelWhatsApp = buildWhatsApp;
 
   /* ---- forms ---- */
   document.querySelectorAll('form[data-sub]').forEach((fm) => {
@@ -385,9 +405,11 @@
           await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
           ok.textContent = fm.dataset.ok || 'Merci ! Message envoyé.';
         } else {
-          const { subject, body } = buildMail(fm.dataset.sub, data);
-          location.href = `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-          ok.textContent = `Votre application e-mail va s’ouvrir avec la demande déjà rédigée \u2014 vérifiez puis appuyez sur Envoyer. Ou appelez-nous : ${PHONE_TXT}.`;
+          const text = buildWhatsApp(fm.dataset.sub, data);
+          const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+          const win = window.open(url, '_blank', 'noopener');
+          if (!win) location.href = url; /* popup blocked: same-tab fallback */
+          ok.textContent = `WhatsApp va s’ouvrir avec votre demande déjà rédigée — vérifiez puis appuyez sur Envoyer. Ou appelez-nous : ${PHONE_TXT}.`;
         }
         ok.classList.add('on');
         fm.reset();
