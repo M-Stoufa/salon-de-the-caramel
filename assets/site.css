@@ -123,7 +123,7 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
 .band .chips a{text-align:center;justify-content:center}
 @media(max-width:760px){.band .chips{grid-template-columns:repeat(2,1fr)}.band .chips a{white-space:normal}}
 /* stacked two-line chip: "Petit" over "déjeuner", like the mockup */
-.band .chips a.stack{text-transform:none;text-align:center;line-height:1.55}
+.band .chips a.stack{text-align:center;line-height:1.55}
 .band-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(2rem,4vw,3.5rem);align-items:center}
 .band-grid .dish{margin:0}
 .band-grid .dish img{width:100%;border-radius:var(--r);box-shadow:0 24px 60px -20px rgba(0,0,0,.55)}
