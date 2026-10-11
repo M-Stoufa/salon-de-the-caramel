@@ -82,27 +82,34 @@
         menuRoot._at = setTimeout(() => menuRoot.classList.remove('anim'), 1100);
       }
       if (!q) spy();
+      else chips.forEach((a) => a.classList.remove('on'));
     };
-    input.addEventListener('input', apply);
-    /* rich descriptions: split comma lists into organized bullets, tap toggles */
+    let deb = 0;
+    input.addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(apply, 120); });
+    /* rich descriptions: split comma lists into organized bullets, tap toggles.
+       Keeps French decimal commas ("0,5 L") and splits "+" lists too. */
     menuRoot.classList.add('rich');
     menuRoot.querySelectorAll('.mi').forEach((it) => {
       const p = it.querySelector('p');
       if (!p || !p.textContent.trim()) return;
-      const parts = p.textContent.split(/[,;]/).map((s) => s.trim()).filter(Boolean);
+      const parts = p.textContent
+        .split(/\s*[+＋]\s*/)
+        .flatMap((s) => s.split(/;+/))
+        .flatMap((s) => s.split(/,(?!\d)/))
+        .map((s) => s.trim())
+        .filter(Boolean);
       if (!parts.length) return;
       const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       p.innerHTML = '<ul class="org">' + parts.map((s) => `<li>${esc(s)}</li>`).join('') + '</ul>';
       it.classList.add('has-desc');
       it.setAttribute('tabindex', '0');
-      const toggle = (e) => {
-        if (window.matchMedia('(hover: hover)').matches && e.type === 'click') return; // desktop: hover does it
+      const toggle = () => {
         const was = it.classList.contains('open');
         menuRoot.querySelectorAll('.mi.open').forEach((o) => o.classList.remove('open'));
         if (!was) it.classList.add('open');
       };
       it.addEventListener('click', toggle);
-      it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); } });
+      it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
     });
     const spy = () => {
       let cur = null;
@@ -110,13 +117,16 @@
         if (s.style.display !== 'none' && s.getBoundingClientRect().top < window.innerHeight * 0.35) cur = s.id;
       });
       chips.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
-      /* keep the active chip visible: rail follows the reading position */
+      /* keep the active chip visible — but never yank the rail while the user reads */
       const rail = menuRoot.querySelector('.cats');
       const on = chips.find((a) => a.classList.contains('on'));
       if (on && rail && rail._spyFor !== cur) {
         rail._spyFor = cur;
         if (!rail._dragAt || Date.now() - rail._dragAt > 2500) {
-          rail.scrollTo({ left: on.offsetLeft - rail.clientWidth / 2 + on.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+          const r = rail.getBoundingClientRect(), o = on.getBoundingClientRect();
+          if (o.left < r.left || o.right > r.right) {
+            on.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'nearest' });
+          }
         }
       }
     };
@@ -124,13 +134,13 @@
     apply();
   }
 
-  /* ---- chips rail: finger-drag scrolling that always works ---- */
+  /* ---- chips rail: mouse-drag scrolling; touch uses native momentum ---- */
   (() => {
     const rail = document.querySelector('.cats');
     if (!rail || !window.PointerEvent) return;
-    rail.style.touchAction = 'pan-y'; /* page keeps vertical; JS owns horizontal */
     let down = false, sx = 0, sl = 0, moved = false, vx = 0, lastX = 0, raf = 0;
     rail.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return; /* touch/pen: browser owns the scroll */
       down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
       lastX = e.clientX; vx = 0; cancelAnimationFrame(raf);
       rail._dragAt = Date.now(); /* tells the spy: hands off, user is driving */
@@ -337,10 +347,10 @@
     );
   })();
 
-  /* ---- hero video: desktop only, saves mobile data ---- */
+  /* ---- hero video: fine-pointer landscape/desktop only, saves mobile data ---- */
   (() => {
     const vid = document.querySelector('.hero video');
-    if (!vid || !window.matchMedia('(min-width: 761px)').matches) return;
+    if (!vid || !window.matchMedia('(min-width: 761px) and (min-height: 501px) and (pointer: fine)').matches) return;
     const s = document.createElement('source');
     s.src = 'hero.mp4';
     s.type = 'video/mp4';
@@ -422,9 +432,9 @@
     });
   });
 
-  /* ---- sticky mobile action bar (thumb-zone CTA) ---- */
+  /* ---- sticky mobile action bar (thumb-zone CTA: portrait phones + landscape phones) ---- */
   (() => {
-    if (!window.matchMedia('(max-width: 760px)').matches) return;
+    if (!window.matchMedia('(max-width: 760px), (orientation: landscape) and (max-height: 500px)').matches) return;
     const onResrv = /resrv\.html$/.test(location.pathname);
     const bar = document.createElement('div');
     bar.className = 'actionbar';
