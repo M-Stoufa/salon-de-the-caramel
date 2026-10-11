@@ -380,6 +380,8 @@ h2.d{font-size:clamp(1.9rem,3.8vw,3rem)}
   .hero .btn-row .btn{flex:1 1 100%;justify-content:center}
   .mc-head>img{width:76px;height:76px;border-radius:16px}
   .menu-boards{grid-template-columns:1fr 1fr}
+  /* phone-only: 3rd board pic centered under the other two */
+  .menu-boards>img:last-child:nth-child(3){grid-column:1/-1;width:min(72%,320px);height:auto;margin-inline:auto}
   .scroll-hint{display:none}
   .mosaic{grid-template-columns:1fr 1fr}
   .mosaic a:nth-child(n){grid-column:auto !important}
